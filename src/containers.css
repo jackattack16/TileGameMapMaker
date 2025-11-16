@@ -1,0 +1,69 @@
+
+/* Main Container Styling */
+.flex-container {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  width: 100vw;
+}
+
+.left-sidebar {
+  height: 100%;
+  width: 20%;
+  background-color: red;
+}
+
+.display-container {
+  height: 100%;
+  width: 50%;
+  background-color: green;
+  position: relative;
+}
+
+.right-sidebar {
+  height: 100%;
+  width: 30%;
+  background-color: blue;
+}
+
+/* Sub Container Styling */
+.editor-HUD-container {
+  z-index: 1;
+  height: min-content;
+  width: auto;
+  position: absolute;
+  padding: 0;
+  bottom: 10px;
+  right: 10px;
+  display: flex;
+  flex-direction: column;  
+}
+
+.editor-action-button-container {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  height: fit-content;
+  width: fit-content;
+  height: fit-content;
+  width: fit-content;
+  padding: 1%;
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(100px);
+}
+
+.editor-HUD-text-container {
+  padding: 0;
+  height: fit-content;
+}
+
+
+/* Gloabl Styles */
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+

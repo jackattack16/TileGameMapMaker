@@ -1,0 +1,15 @@
+
+/* Big elements */
+
+.map-display {
+  z-index: 0;
+  height: 100%;
+  width: 100%;
+  background-color: lightgray;
+}
+
+.editor-HUD-text-display {
+  font-family: "Lucida Console", "Courier New", monospace;
+  text-align: right;
+  font-size: 100%;
+}
