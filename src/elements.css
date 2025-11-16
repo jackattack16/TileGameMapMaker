@@ -1,5 +1,5 @@
 
-/* Big elements */
+/* Big Elements */
 
 .map-display {
   z-index: 0;
@@ -9,7 +9,135 @@
 }
 
 .editor-HUD-text-display {
-  font-family: "Lucida Console", "Courier New", monospace;
   text-align: right;
   font-size: 100%;
+}
+
+.left-sidebar-selector {
+  height: 2.5%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.inspector-pannel-element {
+  color: white;
+  height: fit-content;
+  width: 100%;
+  background-color: var(--primary-bg-color-lighter);
+  overflow: hidden;
+  transition: height 0.25s ease-out;
+}
+
+.inspector-pannel-element > .top-bar {
+  height: fit-content;
+  background-color: var(--primary-bg-color);
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-left: 1%;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+/* Smaller Elements */
+
+.left-sidebar-selector-item {
+  color: white;
+  height: 100%;
+  width: 1fr;
+  background-color: var(--primary-bg-color);
+  text-align: center;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.left-sidebar-selector > .selected {
+  background-color: var(--selected-bg-color);
+  border-bottom: 2px solid white;
+}
+
+.top-bar > .collapse-button {
+  border: none;
+  background-color: transparent;
+  border-radius: 5px;
+  height: fit-content;
+  width: fit-content;
+  line-height: 0;
+  margin-right: 5%;
+}
+
+.top-bar > h1 {
+  font-size: 110%;
+  text-decoration: underline;
+}
+
+.top-bar > .collapse-button > span {
+  line-height: 1;
+  transition: transform 0.25s ease-out;
+  color: white;
+}
+
+.top-bar > .collapse-button:hover {
+  background-color: rgba(0, 0, 0, 0.15);
+}
+
+.inspector-collapse {
+  height: fit-content;
+  width: 100%;
+  display: none;
+}
+
+.uncollapsed {
+  display: block;
+}
+
+.inspector-row-text > p {
+  font-size: 100%;
+  height: 100%;
+  line-height: 0;
+}
+
+.inspector-row-text {
+  width: 50%; 
+}
+
+.inspector-collapse-row {
+  padding: 1% 5%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 10%;
+}
+
+.inspector-icon-button {
+  border: 0.5px solid rgba(5, 5, 5, 0.25);
+  background-color: rgba(5, 5, 5, 0.25);
+  border-radius: 5px;
+  height: fit-content;
+  width: fit-content;
+  line-height: 0;
+  color: white;
+  cursor: pointer;
+}
+
+.inspector-icon-button:hover {
+  border: 0.5px solid rgba(100, 100, 100, 0.5);
+  background-color: rgba(31, 31, 31, 0.25);
+  border-radius: 5px;
+}
+
+
+
+.inspector-multi-input {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 45%;
+}
+
+.hidden {
+  display: none;
 }
