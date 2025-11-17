@@ -148,19 +148,40 @@
           <!-- <p class="editor-HUD-text-display">x: 0 y: 5 tileId: 46</p> -->
         </div>
         <div class="editor-action-button-container">
-          <button class="editor-action-button" name="zoomIn"><span class="material-symbols-rounded">zoom_in</span></button>
-          <button class="editor-action-button" name="zoomOut"><span class="material-symbols-rounded">zoom_out</span></button>
-          <button class="editor-action-button" name="panMode"><span class="material-symbols-rounded">pan_tool</span></button>
-          <button class="editor-action-button" name="selectMode"><span class="material-symbols-rounded">arrow_selector_tool</span></button>
-          <button class="editor-action-button" name="eraseMode"><span class="material-symbols-rounded">ink_eraser</span></button>
-          <button class="editor-action-button" name="editMode"><span class="material-symbols-rounded">edit</span></button>
+          <div class="tooltip">
+            <span class="tooltiptext">Zoom in (=)</span>
+            <button class="editor-action-button" name="zoomIn"><span class="material-symbols-rounded">zoom_in</span></button>
+          </div>
+
+          <div class="tooltip">
+            <span class="tooltiptext">Zoom out (-)</span>
+            <button class="editor-action-button" name="zoomOut"><span class="material-symbols-rounded">zoom_out</span></button>
+          </div>
+
+          <div class="tooltip">
+            <span class="tooltiptext">Pan (p)</span>
+            <button class="editor-action-button selected" name="panMode"><span class="material-symbols-rounded">pan_tool</span></button>
+          </div>
+
+          <div class="tooltip">
+            <span class="tooltiptext">Erase (d)</span>
+            <button class="editor-action-button" name="eraseMode"><span class="material-symbols-rounded">ink_eraser</span></button>
+          </div>
+
+          <div class="tooltip">
+            <span class="tooltiptext">Edit (e)</span>
+            <button class="editor-action-button" name="editMode"><span class="material-symbols-rounded">edit</span></button>
+          </div>
+
+          <div class="tooltip">
+            <span class="tooltiptext">Select (s)</span>
+            <button class="editor-action-button" name="selectMode"><span class="material-symbols-rounded">arrow_selector_tool</span></button>
+          </div>
         </div>
     </div>
     </div>
 
-    <div class="right-sidebar">
-      
-    </div>
+    <div class="right-sidebar"></div>
   </div>
 </body>
 </html>

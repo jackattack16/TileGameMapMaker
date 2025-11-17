@@ -16,7 +16,7 @@ function renderCanvas(camX, camY) {
   // Draw a grid background 
   {
     ctx.lineWidth = zoom / 1;
-    for (let i = 0; i < (cWidth * (1 / zoom) / SPRITE_SIZE); i++) {
+    for (let i = 0; i < (cWidth * (1 / zoom) / SPRITE_SIZE) + 1; i++) {
       const x = (i * SPRITE_SIZE * zoom) - (camX % SPRITE_SIZE * zoom);
 
       ctx.beginPath();
