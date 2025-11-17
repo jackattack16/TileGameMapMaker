@@ -5,18 +5,19 @@ let cameraDragStartPos = [];
 
 
 let cameraPosition = [0,0];
+let zoom = 1;
 function renderCanvas(camX, camY) {
 
   // Update the size of the canvas element to accout for resizing
   let sizeArray = updateCanvasSize(cElement);
   const cWidth = sizeArray[0];
   const cHeight = sizeArray[1];
-  console.log(`${cWidth}, ${cHeight}`);
 
   // Draw a grid background 
   {
-    for (let i = 0; i < cWidth / SPRITE_SIZE; i++) {
-      const x = (i * SPRITE_SIZE) - (camX % SPRITE_SIZE);
+    ctx.lineWidth = zoom / 1;
+    for (let i = 0; i < (cWidth * (1 / zoom) / SPRITE_SIZE); i++) {
+      const x = (i * SPRITE_SIZE * zoom) - (camX % SPRITE_SIZE * zoom);
 
       ctx.beginPath();
       ctx.moveTo(x, 0);
@@ -24,8 +25,8 @@ function renderCanvas(camX, camY) {
       ctx.stroke();
     }
 
-    for (let i = 0; i < cHeight / SPRITE_SIZE; i++) {
-      const y = (i * SPRITE_SIZE) - (camY % SPRITE_SIZE);
+    for (let i = 0; i < (cHeight * (1 / zoom) / SPRITE_SIZE); i++) {
+      const y = (i * SPRITE_SIZE * zoom) - (camY % SPRITE_SIZE * zoom);
 
       ctx.beginPath();
       ctx.moveTo(0, y);
@@ -44,7 +45,6 @@ function updateCanvasSize(cElement) {
 
 function getCursorPosition(event) {
   const rect = cElement.getBoundingClientRect();
-  console.log(rect);
 
   const x = Math.round(event.clientX - rect.left);
   const y = Math.round(event.clientY - rect.top);

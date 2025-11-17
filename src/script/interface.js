@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
       collapseButtons[i].addEventListener("click", function() {
         let span = this.children[0];
         if (span.style.transform === "") {
-          span.style.transform = " rotateX(180deg)";
+          span.style.transform = "rotateX(180deg)";
         } else {
           span.style.transform = "";
         }
