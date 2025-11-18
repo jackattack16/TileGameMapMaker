@@ -1,0 +1,68 @@
+
+.layer-holder {
+  background-color: var(--primary-bg-color-lighter);
+  height: 5%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  user-select: none;
+  padding-left: 5%;
+}
+
+.layer-add {
+  background-color: var(--primary-bg-color);
+  height: 5%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  border-top: 1px solid white;
+}
+
+.layer-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 75%;
+}
+
+.layer-holder > span {
+  font-size: 250%;
+  height: fit-content;
+  color: white;
+  background-color: rgba(255, 255, 255, 0.15);
+  border-radius: 5px;
+  margin-right: 5%;
+  cursor: pointer;
+  user-select: none;
+}
+
+.layer-group > h1 {
+  font-size: 110%;
+  height: fit-content;
+  color: white;
+}
+
+.layer-visibility-button {
+  border: 0.5px solid rgba(5, 5, 5, 0.25);
+  background-color: rgba(175, 175, 175, 0.25);
+  border-radius: 5px;
+  height: fit-content;
+  width: fit-content;
+  line-height: 0;
+  color: white;
+  cursor: pointer;
+  margin-right: 5%;
+}
+
+.layer-visibility-button > span {
+  font-size: 225%;
+}
+
+.layer-visibility-button:hover {
+  border: 0.5px solid rgba(100, 100, 100, 0.5);
+  background-color: rgba(126, 126, 126, 0.25);
+  border-radius: 5px;
+}

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tile Map editor
+  </title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Stack+Sans+Text:wght@200..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=add,arrow_selector_tool,delete,edit,flip,ink_eraser,keyboard_arrow_up,map,move_down,move_up,pan_tool,rotate_left,rotate_right,undo,visibility,visibility_off,zoom_in,zoom_out" />
+
+  <!-- Style Sheets -->
+  <link href="../styles/containers.css" rel="stylesheet"> 
+  <link href="../styles/elements.css" rel="stylesheet"> 
+  <link href="../styles/colors.css" rel="stylesheet"> 
+  <link href="../styles/inputsStyle.css" rel="stylesheet">
+  <link href="../styles/layers.css" rel="stylesheet">
+
+</head>
+<body id="body">
+  <div class="flex-container">
+    <div class="left-sidebar">
+      <div class="left-sidebar-selector">
+        <div class="left-sidebar-selector-item selected">Inspector</div>
+        <div class="left-sidebar-selector-item">Editor</div>
+        <!-- <div class="left-sidebar-selector-item">Object</div> -->
+      </div>
+      <div class="left-sidebar-content ">
+        <div class="left-sidebar-pannel-container">
+          <div class="inspector-pannel-element">
+            <div class="top-bar">
+              <button class="collapse-button"><span class="material-symbols-rounded">keyboard_arrow_up</span></button>
+              <h1>Transform</h1>
+            </div>
+            <div class="inspector-collapse uncollapsed">
+              <div class="inspector-collapse-row">
+                <div class="inspector-row-text"><p>Rotate:</p></div>
+                <div class="inspector-multi-input">
+                  <button class="inspector-icon-button" name="rotate-right"><span class="material-symbols-rounded">rotate_right</span></button>
+                  <button class="inspector-icon-button" name="rotate-left"><span class="material-symbols-rounded">rotate_left</span></button>
+              </div>
+              </div>
+              <div class="inspector-collapse-row">
+                <div class="inspector-row-text"><p>Mirror:</p></div>
+                <div class="inspector-multi-input">
+                  <button class="inspector-icon-button" name="flip-h"><span class="material-symbols-rounded">flip</span></button>
+                  <button class="inspector-icon-button" name="flip-v"><span class="material-symbols-rounded" style="transform: rotate(90deg);">flip</span></button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="inspector-pannel-element">
+            <div class="top-bar">
+              <button class="collapse-button"><span class="material-symbols-rounded">keyboard_arrow_up</span></button>
+              <h1>Collision</h1>
+            </div>
+            <div class="inspector-collapse">
+              <div class="inspector-collapse-row">
+                <div class="inspector-row-text"><p>Walkable</p></div>
+                <input class="inspector-checkbox" type="radio" name="collision-type">
+              </div>
+              <div class="inspector-collapse-row">
+                <div class="inspector-row-text"><p>Barrier</p></div>
+                <div class="inspector-multi-input">
+                  <input class="inspector-checkbox" type="radio"  name="collision-type">
+                  <input class="inspector-number" type="number" placeholder="Id">
+                </div>
+              </div>
+              <div class="inspector-collapse-row">
+                <div class="inspector-row-text"><p>Water</p></div>
+                <input class="inspector-checkbox" type="radio"  name="collision-type">
+              </div>
+            </div>
+          </div>
+          <div class="inspector-pannel-element">
+            <div class="top-bar">
+              <button class="collapse-button"><span class="material-symbols-rounded">keyboard_arrow_up</span></button>
+              <h1>Triggers</h1>
+            </div>
+            <div class="inspector-collapse">
+              <div class="inspector-collapse-row">
+                <div class="inspector-row-text"><p>Dialouge</p></div>
+                <div class="inspector-multi-input">
+                  <input class="inspector-checkbox" type="checkbox">
+                  <input class="inspector-number" type="number" placeholder="Id">
+                </div>
+              </div>
+              <div class="inspector-collapse-row">
+                <div class="inspector-row-text"><p>Cutscene</p></div>
+                <div class="inspector-multi-input">
+                  <input class="inspector-checkbox" type="checkbox">
+                  <input class="inspector-number" type="number" placeholder="Id">
+                </div>
+              </div>
+              <div class="inspector-collapse-row">
+                <div class="inspector-row-text"><p>Game State</p></div>
+                <div class="inspector-multi-input">
+                  <input class="inspector-checkbox" type="checkbox">
+                  <input class="inspector-number" type="number" placeholder="stateId">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="left-sidebar-pannel-container hidden">
+          <div class="inspector-pannel-element">
+            <div class="top-bar">
+              <button class="collapse-button"><span class="material-symbols-rounded">keyboard_arrow_up</span></button>
+              <h1>Map</h1>
+            </div>
+            <div class="inspector-collapse uncollapsed">
+              <div class="inspector-collapse-row">
+                <div class="inspector-row-text"><p>Size </p></div>
+                <div class="inspector-multi-input">
+                  <input class="inspector-number" type="number"  name="map-width" placeholder="width" value="128"> x
+                  <input class="inspector-number" type="number" name="map-height" placeholder="height" value="128">
+                </div>
+              </div>
+              <div class="inspector-collapse-row">
+                <div class="inspector-row-text"><p>Infinite?</p></div>
+                <input class="inspector-checkbox" type="checkbox"  name="map-infinite" checked>
+              </div>
+              <div class="inspector-collapse-row">
+                <div class="inspector-row-text"><p>Map Color</p></div>
+                <div class="inspector-multi-input">
+                  <input class="inspector-color" type="color" name="map-color">
+                  <button class="inspector-icon-button" name="undo-map-color"><span class="material-symbols-rounded">undo</span></button>
+                </div>
+              </div>
+              <div class="inspector-collapse-row">
+                <div class="inspector-row-text"><p>Grid Color</p></div>
+                  <div class="inspector-multi-input">
+                    <input class="inspector-color" type="color" name="grid-color" value="#515151">
+                    <button class="inspector-icon-button" name="undo-grid-color"><span class="material-symbols-rounded">undo</span></button>
+                  </div>
+                </div>
+              <div class="inspector-collapse-row">
+                <div class="inspector-row-text"><p>Show lines</p></div>
+                  <input class="inspector-checkbox" type="checkbox" name="map-gridlines" checked>
+              </div>
+            </div>
+          </div>
+        </div>
+          
+          <!-- <div class="layer-holder">
+            <button class="layer-visibility-button"><span class="material-symbols-rounded">visibility</span></button>
+            <div class="layer-group">
+              <h1>Layer 1</h1>
+               <div class="layer-buttons">
+                <button class="inspector-icon-button"><span class="material-symbols-rounded">move_up</span></button>
+                <button class="inspector-icon-button"><span class="material-symbols-rounded">move_down</span></button>
+                <button class="inspector-icon-button"><span class="material-symbols-rounded">delete</span></button>
+              </div> -->
+      </div>
+    </div>
+
+    <div class="display-container">
+      <canvas class="map-display" id="mapDisplay"></canvas>
+      <div class="editor-HUD-container">
+        <div class="editor-HUD-text-container">
+          <!-- <p class="editor-HUD-text-display">x: 0 y: 5 tileId: 46</p> -->
+        </div>
+        <div class="editor-action-button-container">
+          <div class="tooltip">
+            <span class="tooltiptext">Zoom in (=)</span>
+            <button class="editor-action-button" name="zoomIn"><span class="material-symbols-rounded">zoom_in</span></button>
+          </div>
+
+          <div class="tooltip">
+            <span class="tooltiptext">Zoom out (-)</span>
+            <button class="editor-action-button" name="zoomOut"><span class="material-symbols-rounded">zoom_out</span></button>
+          </div>
+
+          <!-- <div class="tooltip">
+            <span class="tooltiptext">Pan (p)</span>
+            <button class="editor-action-button" name="panMode"><span class="material-symbols-rounded">pan_tool</span></button>
+          </div>
+
+          <div class="tooltip">
+            <span class="tooltiptext">Erase (d)</span>
+            <button class="editor-action-button" name="eraseMode"><span class="material-symbols-rounded">ink_eraser</span></button>
+          </div>
+
+          <div class="tooltip">
+            <span class="tooltiptext">Edit (e)</span>
+            <button class="editor-action-button selected" name="editMode"><span class="material-symbols-rounded">edit</span></button>
+          </div>
+
+          <div class="tooltip">
+            <span class="tooltiptext">Select (s)</span>
+            <button class="editor-action-button" name="selectMode"><span class="material-symbols-rounded">arrow_selector_tool</span></button>
+          </div> -->
+        </div>
+    </div>
+    </div>
+
+    <div class="right-sidebar"></div>
+  </div>
+</body>
+</html>
+<script src="../script/tileClass.js"></script>
+<script src="../script/undo.js"></script>
+<script src="../script/tileActions.js"></script>
+<script src="../script/constants.js"></script>
+<script src="../script/eventListners.js"></script>
+<script src="../script/interface.js"></script>
+<script src="../script/renderCanvas.js"></script>

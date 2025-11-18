@@ -116,7 +116,6 @@ function drawRotatedTile(spriteIndex, x, y, rotation) {
 
 function spriteIdToXY(spriteId) {
   let spriteVector = [];
-
   spriteVector[0] = spriteId % numberOfSpritesWide;
   spriteVector[1] = Math.floor(spriteId / numberOfSpritesWide)
   return spriteVector;
