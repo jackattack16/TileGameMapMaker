@@ -35,19 +35,19 @@
               <button class="collapse-button"><span class="material-symbols-rounded">keyboard_arrow_up</span></button>
               <h1>Transform</h1>
             </div>
-            <div class="inspector-collapse">
+            <div class="inspector-collapse uncollapsed">
               <div class="inspector-collapse-row">
                 <div class="inspector-row-text"><p>Rotate:</p></div>
                 <div class="inspector-multi-input">
-                  <button class="inspector-icon-button"><span class="material-symbols-rounded">rotate_right</span></button>
-                  <button class="inspector-icon-button"><span class="material-symbols-rounded">rotate_left</span></button>
+                  <button class="inspector-icon-button" name="rotate-right"><span class="material-symbols-rounded">rotate_right</span></button>
+                  <button class="inspector-icon-button" name="rotate-left"><span class="material-symbols-rounded">rotate_left</span></button>
               </div>
               </div>
               <div class="inspector-collapse-row">
                 <div class="inspector-row-text"><p>Mirror:</p></div>
                 <div class="inspector-multi-input">
-                  <button class="inspector-icon-button"><span class="material-symbols-rounded">flip</span></button>
-                  <button class="inspector-icon-button"><span class="material-symbols-rounded" style="transform: rotate(90deg);">flip</span></button>
+                  <button class="inspector-icon-button" name="flip-h"><span class="material-symbols-rounded">flip</span></button>
+                  <button class="inspector-icon-button" name="flip-v"><span class="material-symbols-rounded" style="transform: rotate(90deg);">flip</span></button>
                 </div>
               </div>
             </div>
@@ -117,7 +117,7 @@
                 <div class="inspector-row-text"><p>Size </p></div>
                 <div class="inspector-multi-input">
                   <input class="inspector-number" type="number"  name="map-width" placeholder="width" value="128"> x
-                  <input class="inspector-number" type="number" name="s" placeholder="height" value="128">
+                  <input class="inspector-number" type="number" name="map-height" placeholder="height" value="128">
                 </div>
               </div>
               <div class="inspector-collapse-row">
@@ -175,9 +175,9 @@
             <button class="editor-action-button" name="zoomOut"><span class="material-symbols-rounded">zoom_out</span></button>
           </div>
 
-          <div class="tooltip">
+          <!-- <div class="tooltip">
             <span class="tooltiptext">Pan (p)</span>
-            <button class="editor-action-button selected" name="panMode"><span class="material-symbols-rounded">pan_tool</span></button>
+            <button class="editor-action-button" name="panMode"><span class="material-symbols-rounded">pan_tool</span></button>
           </div>
 
           <div class="tooltip">
@@ -187,13 +187,13 @@
 
           <div class="tooltip">
             <span class="tooltiptext">Edit (e)</span>
-            <button class="editor-action-button" name="editMode"><span class="material-symbols-rounded">edit</span></button>
+            <button class="editor-action-button selected" name="editMode"><span class="material-symbols-rounded">edit</span></button>
           </div>
 
           <div class="tooltip">
             <span class="tooltiptext">Select (s)</span>
             <button class="editor-action-button" name="selectMode"><span class="material-symbols-rounded">arrow_selector_tool</span></button>
-          </div>
+          </div> -->
         </div>
     </div>
     </div>
@@ -203,6 +203,8 @@
 </body>
 </html>
 <script src="../script/tileClass.js"></script>
+<script src="../script/undo.js"></script>
+<script src="../script/tileActions.js"></script>
 <script src="../script/constants.js"></script>
 <script src="../script/eventListners.js"></script>
 <script src="../script/interface.js"></script>

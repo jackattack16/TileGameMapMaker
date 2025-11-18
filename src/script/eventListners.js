@@ -52,37 +52,78 @@ document.addEventListener("keydown", function(e) {
       renderCanvas();
       break;
       case " ":
-        // Calculate the center of the map in world coordinates
-        const mapCenterX = (mapWidth * SPRITE_SIZE) / 2;
-        const mapCenterY = (mapHeight * SPRITE_SIZE) / 2;
-        
-        // Get canvas dimensions
-        const canvasWidth = cElement.width;
-        const canvasHeight = cElement.height;
-        
-        // Calculate zoom to fit the entire map on screen (with some padding)
-        const padding = 1.1; // 10% padding
-        const zoomToFitWidth = canvasWidth / (mapWidth * SPRITE_SIZE * padding);
-        const zoomToFitHeight = canvasHeight / (mapHeight * SPRITE_SIZE * padding);
-        zoom = Math.min(zoomToFitWidth, zoomToFitHeight);
-        zoom = clampValue(zoom, 0.1, 5); // Respect your zoom limits
-        
-        // Position camera so map center is at canvas center
-        cameraPosition.x = mapCenterX - (canvasWidth / 2 / zoom);
-        cameraPosition.y = mapCenterY - (canvasHeight / 2 / zoom);
-        
-        renderCanvas(cameraPosition.x, cameraPosition.y);
+        snapToCenter();
         break;
+  }
+
+  if (e.ctrlKey) {
+    switch (keyName) {
+      case "z":
+        undoAction();
+        break;
+      case "y":
+        redoAction();
+    }
   }
 });
 
+
 cElement.addEventListener('mousedown', function(e) {
-  console.log(snapMouseToGrid(e));
-  if (e.button !== 2) {
+  const mouseEvent = snapMouseToGrid(e);
+  const key = mouseEvent.tileX + "," + mouseEvent.tileY;
+  const oldTile = tileMap.get(key);
+
+
+  if (e.button === 0 && e.shiftKey) {
+    tileMap.get(key).selected ^= true;
+    renderCanvas();
+    return;
+  }
+
+  if (e.button === 0 && e.altKey) {
+    clearSelected();
+    tileMap.get(key).selected ^= true;
+    renderCanvas();
+    return;
+  }
+
+  if (e.button === 0) {
+    const newTile = new Tile(mouseEvent.tileX, mouseEvent.tileY, Math.random());
+
+    addToUndo(
+      "drawTile",
+      key, 
+      deepTileRefrence(oldTile),
+      deepTileRefrence(newTile)
+    );
+    redoStack.length = 0;
+    
+    tileMap.set((mouseEvent.tileX + "," + mouseEvent.tileY), new Tile(mouseEvent.tileX, mouseEvent.tileY, Math.random()));
+    clearSelected();
+    renderCanvas();
+  }
+
+  if (e.button === 2) {
+
+    addToUndo(
+      "deleteTile",
+      key,
+      deepTileRefrence(oldTile),
+      null
+    );
+    redoStack.length = 0;
+
+    tileMap.delete((mouseEvent.tileX + "," + mouseEvent.tileY));
+    renderCanvas();
+  }
+
+  if (e.button === 1 || (currentMode == "panMode" && e.button === 0)) {
     isDragging = true;
     initialDragPos = getCursorPosition(e);
     cameraDragStartPos = { x: cameraPosition.x, y: cameraPosition.y };
   }
+
+  
 });
 
 function snapMouseToGrid(event) {
@@ -95,8 +136,8 @@ function snapMouseToGrid(event) {
   const worldY = (mouseY / zoom) + cameraPosition.y;
   
   // Snap to grid
-  const snappedTileX = Math.round(worldX / SPRITE_SIZE);
-  const snappedTileY = Math.round(worldY / SPRITE_SIZE);
+  const snappedTileX = Math.floor(worldX / SPRITE_SIZE);
+  const snappedTileY = Math.floor(worldY / SPRITE_SIZE);
   
   return {
     tileX: snappedTileX,
@@ -270,7 +311,7 @@ const inputConfigs = {
   },
   'map-width': {
     type: 'number',
-    defaultValue: 128,
+    defaultValue: 20,
     onChange: (value) => {
       mapWidth = value;
       console.log('Map width:', value);
@@ -279,7 +320,7 @@ const inputConfigs = {
   },
   'map-height': {
     type: 'number',
-    defaultValue: 128,
+    defaultValue: 20,
     onChange: (value) => {
       mapHeight = value;
       console.log('Map height:', value);
@@ -334,5 +375,30 @@ function initializeInputs() {
 
 // Call initialization
 initializeInputs();
-  
+snapToCenter();
+
+
+
+// Icon buttons
+const inspectorIconButtons = document.getElementsByClassName("inspector-icon-button");
+
+for (let button of inspectorIconButtons) {
+  const buttonName = button.name;
+
+  switch (buttonName) {
+    case "rotate-right":
+      button.addEventListener("click", () => rotateTile(buttonName));
+      break;
+    case "rotate-left":
+      button.addEventListener("click", () => rotateTile(buttonName));
+      break;
+    case "flip-h":
+      button.addEventListener("click", () => rotateTile(buttonName));
+      break;  
+    case "flip-v":
+      button.addEventListener("click", () => rotateTile(buttonName));
+      break;
+  }
+ 
+}
 });

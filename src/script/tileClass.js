@@ -34,6 +34,7 @@
 /**
  * @typedef {Object} TileOptions
  * @property {number} [rotation]
+ * @property {boolean} [selected]
  * @property {boolean} [mirrorHorizontal]
  * @property {boolean} [mirrorVertical]
  * @property {CollisionData} [collision]
@@ -49,6 +50,7 @@ class Tile {
    */
   constructor(x, y, tileId, {
     rotation = 0,
+    selected = false,
     mirrorHorizontal = false,
     mirrorVertical = false,
     collision = {
@@ -80,6 +82,7 @@ class Tile {
     this.rotation = rotation;  // <-- uses setter now
     this.mirrorHorizontal = mirrorHorizontal;
     this.mirrorVertical = mirrorVertical;
+    this.selected = selected;
 
     this.collision = collision;
     this.triggers = triggers;
