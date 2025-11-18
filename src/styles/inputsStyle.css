@@ -23,6 +23,15 @@ display: grid;
 place-content: center;
 }
 
+input[type="color"] {
+  inline-size: 3.5em;
+  block-size: 2em;
+  border-width: 0px;
+  border-style: solid;
+  border-color: rgb(153, 153, 153);
+}
+
+
 input[type="radio"]::before {
 content: "";
 width: 0.65em;

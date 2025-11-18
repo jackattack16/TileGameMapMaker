@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Stack+Sans+Text:wght@200..700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=add,arrow_selector_tool,delete,edit,flip,ink_eraser,keyboard_arrow_up,map,move_down,move_up,pan_tool,rotate_left,rotate_right,visibility,visibility_off,zoom_in,zoom_out" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=add,arrow_selector_tool,delete,edit,flip,ink_eraser,keyboard_arrow_up,map,move_down,move_up,pan_tool,rotate_left,rotate_right,undo,visibility,visibility_off,zoom_in,zoom_out" />
 
   <!-- Style Sheets -->
   <link href="../styles/containers.css" rel="stylesheet"> 
@@ -28,7 +28,7 @@
         <div class="left-sidebar-selector-item">Editor</div>
         <!-- <div class="left-sidebar-selector-item">Object</div> -->
       </div>
-      <div class="left-sidebar-content">
+      <div class="left-sidebar-content ">
         <div class="left-sidebar-pannel-container">
           <div class="inspector-pannel-element">
             <div class="top-bar">
@@ -106,39 +106,56 @@
           </div>
         </div>
 
-        <div class="left-sidebar-pannel-container hidden" style="display: none;">
-          <div class="layer-holder">
+        <div class="left-sidebar-pannel-container hidden">
+          <div class="inspector-pannel-element">
+            <div class="top-bar">
+              <button class="collapse-button"><span class="material-symbols-rounded">keyboard_arrow_up</span></button>
+              <h1>Map</h1>
+            </div>
+            <div class="inspector-collapse uncollapsed">
+              <div class="inspector-collapse-row">
+                <div class="inspector-row-text"><p>Size </p></div>
+                <div class="inspector-multi-input">
+                  <input class="inspector-number" type="number"  name="map-width" placeholder="width" value="128"> x
+                  <input class="inspector-number" type="number" name="s" placeholder="height" value="128">
+                </div>
+              </div>
+              <div class="inspector-collapse-row">
+                <div class="inspector-row-text"><p>Infinite?</p></div>
+                <input class="inspector-checkbox" type="checkbox"  name="map-infinite" checked>
+              </div>
+              <div class="inspector-collapse-row">
+                <div class="inspector-row-text"><p>Map Color</p></div>
+                <div class="inspector-multi-input">
+                  <input class="inspector-color" type="color" name="map-color">
+                  <button class="inspector-icon-button" name="undo-map-color"><span class="material-symbols-rounded">undo</span></button>
+                </div>
+              </div>
+              <div class="inspector-collapse-row">
+                <div class="inspector-row-text"><p>Grid Color</p></div>
+                  <div class="inspector-multi-input">
+                    <input class="inspector-color" type="color" name="grid-color" value="#515151">
+                    <button class="inspector-icon-button" name="undo-grid-color"><span class="material-symbols-rounded">undo</span></button>
+                  </div>
+                </div>
+              <div class="inspector-collapse-row">
+                <div class="inspector-row-text"><p>Show lines</p></div>
+                  <input class="inspector-checkbox" type="checkbox" name="map-gridlines" checked>
+              </div>
+            </div>
+          </div>
+        </div>
+          
+          <!-- <div class="layer-holder">
             <button class="layer-visibility-button"><span class="material-symbols-rounded">visibility</span></button>
             <div class="layer-group">
               <h1>Layer 1</h1>
-              <!-- <div class="layer-buttons">
+               <div class="layer-buttons">
                 <button class="inspector-icon-button"><span class="material-symbols-rounded">move_up</span></button>
                 <button class="inspector-icon-button"><span class="material-symbols-rounded">move_down</span></button>
                 <button class="inspector-icon-button"><span class="material-symbols-rounded">delete</span></button>
               </div> -->
-            </div>
-          </div>
-
-          <div class="layer-holder">
-            <button class="layer-visibility-button"><span class="material-symbols-rounded">visibility_off</span></button>
-            <div class="layer-group">
-              <h1>Layer 2</h1>
-              <!-- <div class="layer-buttons">
-                <button class="inspector-icon-button"><span class="material-symbols-rounded">move_up</span></button>
-                <button class="inspector-icon-button"><span class="material-symbols-rounded">move_down</span></button>
-                <button class="inspector-icon-button"><span class="material-symbols-rounded">delete</span></button>
-              </div> -->
-            </div>
-          </div>
-          <div class="layer-add">
-            <button class="layer-visibility-button"><span class="material-symbols-rounded">add</span></button>
-          </div>
-        <div class="left-sidebar-pannel-container hidden">
-        </div>
-
-        
       </div>
-    </div>
     </div>
 
     <div class="display-container">
@@ -185,6 +202,7 @@
   </div>
 </body>
 </html>
+<script src="../script/tileClass.js"></script>
 <script src="../script/constants.js"></script>
 <script src="../script/eventListners.js"></script>
 <script src="../script/interface.js"></script>
