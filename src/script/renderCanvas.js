@@ -120,7 +120,7 @@ function renderCanvas(camX, camY, previewX, previewY) {
     // 4. draw image centered at origin  
     // (this keeps rotation + flip always stable)
     ctx.drawImage(
-      sprites[currentSelectedSprite],
+      sprites[tile.tileId],
       -half,  // x offset
       -half,  // y offset
       size, 

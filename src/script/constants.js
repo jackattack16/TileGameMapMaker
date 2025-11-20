@@ -19,6 +19,7 @@ spriteSheet.src = "../../../../spriteSheets/testTileSpriteSheet.png";
 let sprites = [];
 let currentSelectedSprite = 0;
 const tempDisplaySize = updateCanvasSize(sElement);
+let spriteRects = [];
 spriteSheet.onload = async () => {
   console.log("spritesheet loaded");
 

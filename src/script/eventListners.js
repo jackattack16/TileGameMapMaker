@@ -45,12 +45,10 @@ document.addEventListener("keydown", function(e) {
     case "-":
       zoom -= 0.1;
       zoom = clampValue(zoom, 0.1, 10);
-      renderCanvas();
       break;
     case "=":
       zoom += 0.1;
       zoom = clampValue(zoom, 0.1, 10);
-      renderCanvas();
       break;
     case " ":
       snapToCenter();
@@ -62,8 +60,25 @@ document.addEventListener("keydown", function(e) {
         bottomLeft: "0,0",
         bottomRight: "0,0"
       }
-      renderCanvas();
+      break;
+    case "q":
+      previewRotation -= 90;
+      rotateTile("rotate-left");
+      break;
+    case "e":
+      previewRotation += 90;
+      rotateTile("rotate-right");
+      break;
+    case "a":
+      previewMirror[0] ^= true;
+      rotateTile("flip-h");
+      break;
+    case "d":
+      previewMirror[1] ^= true;
+      rotateTile("flip-v");
+      break;
   }
+  renderCanvas();
   if (e.ctrlKey) {
     switch (keyName) {
       case "z":
@@ -99,7 +114,7 @@ cElement.addEventListener('mousedown', function(e) {
   }
 
   if (e.button === 0) {
-    const newTile = new Tile(mouseEvent.tileX, mouseEvent.tileY, Math.random(), {rotation: previewRotation, mirrorHorizontal: previewMirror[0], mirrorVertical: previewMirror[1] });
+    const newTile = new Tile(mouseEvent.tileX, mouseEvent.tileY, currentSelectedSprite, {rotation: previewRotation, mirrorHorizontal: previewMirror[0], mirrorVertical: previewMirror[1] });
 
     addToUndo(
       "drawTile",
@@ -194,7 +209,7 @@ cElement.addEventListener('mousemove', function(e) {
   }
 
   if (isDragging === "draw") { 
-    const newTile = new Tile(mouseEvent.tileX, mouseEvent.tileY, Math.random());
+    const newTile = new Tile(mouseEvent.tileX, mouseEvent.tileY, currentSelectedSprite, {rotation: previewRotation, mirrorHorizontal: previewMirror[0], mirrorVertical: previewMirror[1] });
 
     addToUndo(
       "drawTile",
@@ -204,7 +219,7 @@ cElement.addEventListener('mousemove', function(e) {
     );
     redoStack.length = 0;
     
-    tileMap.set((mouseEvent.tileX + "," + mouseEvent.tileY), new Tile(mouseEvent.tileX, mouseEvent.tileY, Math.random()));
+    tileMap.set((mouseEvent.tileX + "," + mouseEvent.tileY), newTile);
 
   }
 
