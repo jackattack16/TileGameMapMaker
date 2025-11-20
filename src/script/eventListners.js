@@ -1,9 +1,10 @@
-window.addEventListener('load', function() {
-  renderCanvas();
-});
+// window.addEventListener('load', function() {
+//   //renderCanvas();
+// });
 
 window.addEventListener("resize", (event) => { 
   renderCanvas();
+  renderSpriteSheet(updateCanvasSize(sElement));
 })
 
 cElement.addEventListener("wheel", (event) => { 
@@ -264,57 +265,57 @@ cElement.addEventListener('mouseenter', () => {
 
 
 
-document.addEventListener("DOMContentLoaded", () => {
   // Load editor action buttons
-  {
-    let editorActionButtons = document.getElementsByClassName("editor-action-button");
-    for(let i = 0; i < editorActionButtons.length; i++) {
-      editorActionButtons[i].addEventListener("click", function(e) {
-        const buttonName = e.explicitOriginalTarget.name;
-        const buttonArray = Array.from(editorActionButtons);
-        switch (buttonName) {
-          case "zoomOut":
-            zoom -= 0.1;
-            zoom = clampValue(zoom, 0.1, 10);
-            renderCanvas();
-            break;
-          case "zoomIn":
-            zoom += 0.1;
-            zoom = clampValue(zoom, 0.25, 5);
-            renderCanvas();
-            break;
-          case "panMode":
-            buttonArray.forEach((buttonArray, idx) => {
-              buttonArray.classList.toggle("selected", idx == i);
-            });
-            currentMode = buttonName;
-            // Add mode switching function
-            break;
-          case "selectMode":
-            buttonArray.forEach((buttonArray, idx) => {
-              buttonArray.classList.toggle("selected", idx == i);
-            });
-            currentMode = buttonName;
-            // Add mode switching function
-            break;
-          case "editMode":
-            buttonArray.forEach((buttonArray, idx) => {
-              buttonArray.classList.toggle("selected", idx == i);
-            });
-            currentMode = buttonName;
-            // Add mode switching function
-            break;screenX
-          case "eraseMode":
-            buttonArray.forEach((buttonArray, idx) => {
-              buttonArray.classList.toggle("selected", idx == i);
-            });
-            currentMode = buttonName;
-            // Add mode switching function
-            break;
-        }
-      });
-    }
+function loadActionButtons() {
+  let editorActionButtons = document.getElementsByClassName("editor-action-button");
+  for(let i = 0; i < editorActionButtons.length; i++) {
+    editorActionButtons[i].addEventListener("click", function(e) {
+      const buttonName = e.explicitOriginalTarget.name;
+      const buttonArray = Array.from(editorActionButtons);
+      switch (buttonName) {
+        case "zoomOut":
+          zoom -= 0.1;
+          zoom = clampValue(zoom, 0.1, 10);
+          renderCanvas();
+          break;
+        case "zoomIn":
+          zoom += 0.1;
+          zoom = clampValue(zoom, 0.25, 5);
+          renderCanvas();
+          break;
+        case "panMode":
+          buttonArray.forEach((buttonArray, idx) => {
+            buttonArray.classList.toggle("selected", idx == i);
+          });
+          currentMode = buttonName;
+          // Add mode switching function
+          break;
+        case "selectMode":
+          buttonArray.forEach((buttonArray, idx) => {
+            buttonArray.classList.toggle("selected", idx == i);
+          });
+          currentMode = buttonName;
+          // Add mode switching function
+          break;
+        case "editMode":
+          buttonArray.forEach((buttonArray, idx) => {
+            buttonArray.classList.toggle("selected", idx == i);
+          });
+          currentMode = buttonName;
+          // Add mode switching function
+          break;screenX
+        case "eraseMode":
+          buttonArray.forEach((buttonArray, idx) => {
+            buttonArray.classList.toggle("selected", idx == i);
+          });
+          currentMode = buttonName;
+          // Add mode switching function
+          break;
+      }
+    });
   }
+}
+  
 
 // Configuration for each input group
 const inputConfigs = {
@@ -469,8 +470,8 @@ function initializeInputs() {
 }
 
 // Call initialization
-initializeInputs();
-snapToCenter();
+
+//snapToCenter();
 
 
 
@@ -508,4 +509,3 @@ for (let button of inspectorIconButtons) {
   }
  
 }
-});

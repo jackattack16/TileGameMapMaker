@@ -18,6 +18,7 @@
   <link href="../styles/colors.css" rel="stylesheet"> 
   <link href="../styles/inputsStyle.css" rel="stylesheet">
   <link href="../styles/layers.css" rel="stylesheet">
+  <link href="../styles/rightSideBar.css" rel="stylesheet">
 
 </head>
 <body id="body">
@@ -152,11 +153,7 @@
             </div>
             <div class="inspector-collapse uncollapsed">
               <div class="inspector-collapse-row">
-                <div class="inspector-row-text"><p>Auto Select Tile</p></div>
-                <input class="inspector-checkbox" type="checkbox"  name="auto-select-tile" checked>
-              </div>
-              <div class="inspector-collapse-row">
-                <div class="inspector-row-text"><p>Selection Color</p></div>
+                <div class="inspector-row-text"><p>Select Color</p></div>
                 <div class="inspector-multi-input">
                   <input class="inspector-color" type="color" name="selection-color">
                   <button class="inspector-icon-button" name="undo-selection-color"><span class="material-symbols-rounded">undo</span></button>
@@ -218,7 +215,16 @@
     </div>
     </div>
 
-    <div class="right-sidebar"></div>
+    <div class="right-sidebar">
+      <div class="right-sidebar-selector">
+        <div class="right-sidebar-selector-item">Sprite Sheet</div>
+      </div>
+
+      <div class="right-sidebar-content">
+        <canvas class="sprite-selector" id="spriteSelector"></canvas>
+        <div class="sprite-selection-settings"></div>
+      </div>
+    </div>
   </div>
 </body>
 </html>
@@ -228,4 +234,5 @@
 <script src="../script/constants.js"></script>
 <script src="../script/renderCanvas.js"></script>
 <script src="../script/eventListners.js"></script>
+<script src="../script/spriteSheet.js"></script>
 <script src="../script/interface.js"></script>

@@ -1,0 +1,35 @@
+.right-sidebar-selector {
+  height: 2.5%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.right-sidebar-selector-item {
+  color: white;
+  height: 100%;
+  width: 1fr;
+  background-color: var(--primary-bg-color);
+  text-align: center;
+  font-weight: 700;
+  cursor: pointer;
+  border-bottom: 2px solid white;
+}
+
+.right-sidebar-content {
+  height: 97.5%;
+}
+
+.sprite-selector {
+  background-color: var(--selected-bg-color);
+  height: 100%;
+  width: 100%;
+}
+
+.sprite-selection-settings {
+  height: 25%;
+  width: 100%;
+  background-color: var(--secondary-bg-color);
+  border-top: 2px solid white;
+}
