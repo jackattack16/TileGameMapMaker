@@ -24,12 +24,12 @@
   <div class="flex-container">
     <div class="left-sidebar">
       <div class="left-sidebar-selector">
-        <div class="left-sidebar-selector-item selected">Inspector</div>
-        <div class="left-sidebar-selector-item">Editor</div>
+        <div class="left-sidebar-selector-item">Inspector</div>
+        <div class="left-sidebar-selector-item selected">Editor</div>
         <!-- <div class="left-sidebar-selector-item">Object</div> -->
       </div>
       <div class="left-sidebar-content ">
-        <div class="left-sidebar-pannel-container">
+        <div class="left-sidebar-pannel-container hidden">
           <div class="inspector-pannel-element">
             <div class="top-bar">
               <button class="collapse-button"><span class="material-symbols-rounded">keyboard_arrow_up</span></button>
@@ -106,7 +106,7 @@
           </div>
         </div>
 
-        <div class="left-sidebar-pannel-container hidden">
+        <div class="left-sidebar-pannel-container">
           <div class="inspector-pannel-element">
             <div class="top-bar">
               <button class="collapse-button"><span class="material-symbols-rounded">keyboard_arrow_up</span></button>
@@ -144,6 +144,26 @@
               </div>
             </div>
           </div>
+
+          <div class="inspector-pannel-element">
+            <div class="top-bar">
+              <button class="collapse-button"><span class="material-symbols-rounded">keyboard_arrow_up</span></button>
+              <h1>Selection</h1>
+            </div>
+            <div class="inspector-collapse uncollapsed">
+              <div class="inspector-collapse-row">
+                <div class="inspector-row-text"><p>Auto Select Tile</p></div>
+                <input class="inspector-checkbox" type="checkbox"  name="auto-select-tile" checked>
+              </div>
+              <div class="inspector-collapse-row">
+                <div class="inspector-row-text"><p>Selection Color</p></div>
+                <div class="inspector-multi-input">
+                  <input class="inspector-color" type="color" name="selection-color">
+                  <button class="inspector-icon-button" name="undo-selection-color"><span class="material-symbols-rounded">undo</span></button>
+                </div>
+              </div>
+          </div>
+        </div>
         </div>
           
           <!-- <div class="layer-holder">
@@ -206,6 +226,6 @@
 <script src="../script/undo.js"></script>
 <script src="../script/tileActions.js"></script>
 <script src="../script/constants.js"></script>
+<script src="../script/renderCanvas.js"></script>
 <script src="../script/eventListners.js"></script>
 <script src="../script/interface.js"></script>
-<script src="../script/renderCanvas.js"></script>

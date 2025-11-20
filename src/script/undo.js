@@ -18,7 +18,7 @@ function undoAction(inputAction, inputData) {
   if (currentUndo.before === null) {
     tileMap.delete(currentUndo.key);
   } else {
-    tileMap.set(currentUndo.key, deepCopy(currentUndo.before));
+    tileMap.set(currentUndo.key, deepTileRefrence(currentUndo.before));
   }
 
   renderCanvas();
