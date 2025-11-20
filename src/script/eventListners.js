@@ -51,11 +51,18 @@ document.addEventListener("keydown", function(e) {
       zoom = clampValue(zoom, 0.1, 10);
       renderCanvas();
       break;
-      case " ":
-        snapToCenter();
-        break;
+    case " ":
+      snapToCenter();
+      break;
+    case "Escape":
+      selectionBox = {
+        topLeft: "0,0",
+        topRight: "0,0", 
+        bottomLeft: "0,0",
+        bottomRight: "0,0"
+      }
+      renderCanvas();
   }
-
   if (e.ctrlKey) {
     switch (keyName) {
       case "z":
@@ -67,7 +74,7 @@ document.addEventListener("keydown", function(e) {
   }
 });
 
-
+// TODO: Make it work if you drag off the canvas
 cElement.addEventListener('mousedown', function(e) {
   const mouseEvent = snapMouseToGrid(e);
   const key = mouseEvent.tileX + "," + mouseEvent.tileY;
@@ -75,20 +82,23 @@ cElement.addEventListener('mousedown', function(e) {
 
 
   if (e.button === 0 && e.shiftKey) {
-    tileMap.get(key).selected ^= true;
     renderCanvas();
+    isDragging = "select";
+    initialDragPos = mouseEvent;
+    drawPreviewTile = false;
+    clearSelected();
     return;
   }
 
   if (e.button === 0 && e.altKey) {
-    clearSelected();
     tileMap.get(key).selected ^= true;
+    isDragging = "select";
     renderCanvas();
     return;
   }
 
   if (e.button === 0) {
-    const newTile = new Tile(mouseEvent.tileX, mouseEvent.tileY, Math.random());
+    const newTile = new Tile(mouseEvent.tileX, mouseEvent.tileY, Math.random(), {rotation: previewRotation, mirrorHorizontal: previewMirror[0], mirrorVertical: previewMirror[1] });
 
     addToUndo(
       "drawTile",
@@ -98,9 +108,11 @@ cElement.addEventListener('mousedown', function(e) {
     );
     redoStack.length = 0;
     
-    tileMap.set((mouseEvent.tileX + "," + mouseEvent.tileY), new Tile(mouseEvent.tileX, mouseEvent.tileY, Math.random()));
+    tileMap.set((mouseEvent.tileX + "," + mouseEvent.tileY), newTile);
     clearSelected();
+    drawPreviewTile = true;
     renderCanvas();
+    isDragging = "draw";
   }
 
   if (e.button === 2) {
@@ -115,10 +127,12 @@ cElement.addEventListener('mousedown', function(e) {
 
     tileMap.delete((mouseEvent.tileX + "," + mouseEvent.tileY));
     renderCanvas();
+
+    isDragging = "delete";
   }
 
   if (e.button === 1 || (currentMode == "panMode" && e.button === 0)) {
-    isDragging = true;
+    isDragging = "pan";
     initialDragPos = getCursorPosition(e);
     cameraDragStartPos = { x: cameraPosition.x, y: cameraPosition.y };
   }
@@ -150,29 +164,102 @@ function snapMouseToGrid(event) {
 }
 
 cElement.addEventListener('mousemove', function(e) {
-  if (isDragging) { 
-    let newDragPos = getCursorPosition(e);
+  const mouseEvent = snapMouseToGrid(e);
+  const key = mouseEvent.tileX + "," + mouseEvent.tileY;
+  const oldTile = tileMap.get(key);
+  let newDragPos = getCursorPosition(e);
+  const xDistance = initialDragPos.x - newDragPos.x;
+  const yDistance = initialDragPos.y - newDragPos.y;
 
-    const xDistance = initialDragPos.x - newDragPos.x;
-    const yDistance = initialDragPos.y - newDragPos.y;
+  if (isDragging === "pan") { 
 
     cameraPosition.x = cameraDragStartPos.x + (xDistance / Math.abs(zoom));
     cameraPosition.y = cameraDragStartPos.y + (yDistance / Math.abs(zoom));
+  }
 
+  if (isDragging === "delete") { 
+    if (tileMap.has(key)) {
+      addToUndo(
+        "deleteTile",
+        key,
+        deepTileRefrence(oldTile),
+        null
+      );
+      redoStack.length = 0;
+
+      tileMap.delete((mouseEvent.tileX + "," + mouseEvent.tileY));
+
+    }
+  }
+
+  if (isDragging === "draw") { 
+    const newTile = new Tile(mouseEvent.tileX, mouseEvent.tileY, Math.random());
+
+    addToUndo(
+      "drawTile",
+      key, 
+      deepTileRefrence(oldTile),
+      deepTileRefrence(newTile)
+    );
+    redoStack.length = 0;
+    
+    tileMap.set((mouseEvent.tileX + "," + mouseEvent.tileY), new Tile(mouseEvent.tileX, mouseEvent.tileY, Math.random()));
+
+  }
+
+  if (isDragging === "select") { 
+    selectionBox.topLeft = initialDragPos.screenX + "," + initialDragPos.screenY;
+    selectionBox.topRight = mouseEvent.screenX + "," + initialDragPos.screenY;
+    selectionBox.bottomLeft = initialDragPos.screenX + "," + mouseEvent.screenY;
+    selectionBox.bottomRight = mouseEvent.screenX + "," + mouseEvent.screenY;
+  }
+
+  if (isDragging === "") {
+    renderCanvas(cameraPosition[0], cameraPosition[1], e.layerX, e.layerY);
+  } else {
     renderCanvas();
   }
 });
 
 cElement.addEventListener('mouseup', () => {
-  isDragging = false;
+  if (isDragging === "select") {
+    addTilesToSelected();
+    selectionBox = {
+      topLeft: "0,0",
+      topRight: "0,0", 
+      bottomLeft: "0,0",
+      bottomRight: "0,0"
+    } 
+  }
+  
+  drawPreviewTile = true;
+  renderCanvas();
+  isDragging = "";
 });
 
 cElement.addEventListener('mouseleave', () => {
-  isDragging = false; 
+  
+  if (isDragging === "select") {
+    addTilesToSelected();
+    selectionBox = {
+      topLeft: "0,0",
+      topRight: "0,0", 
+      bottomLeft: "0,0",
+      bottomRight: "0,0"
+    }
+  }
+  isDragging = ""; 
+  drawPreviewTile = false;
+  renderCanvas();
 });
 
 cElement.addEventListener('contextmenu', (e) => {
   e.preventDefault(); // stops the right-click menu from showing
+});
+
+cElement.addEventListener('mouseenter', () => {
+  drawPreviewTile = true;
+  renderCanvas();
 });
 
 
@@ -216,7 +303,7 @@ document.addEventListener("DOMContentLoaded", () => {
             });
             currentMode = buttonName;
             // Add mode switching function
-            break;
+            break;screenX
           case "eraseMode":
             buttonArray.forEach((buttonArray, idx) => {
               buttonArray.classList.toggle("selected", idx == i);
@@ -255,7 +342,7 @@ const inputConfigs = {
         const mapheight = document.getElementsByName("map-height");
         mapheight[0].type = "text";
         mapheight[0].value = "∞";
-        mapheight[0].readOnly = true;
+        mapheight[0].readOnly = trueselectionBox;
         mapheight[0].style.userSelect = "none";
       } else {
         const mapwidth = document.getElementsByName("map-width");
@@ -278,6 +365,14 @@ const inputConfigs = {
     defaultValue: '#515151',
     onChange: (value) => {
       gridColor = value;
+      renderCanvas();
+    }
+  },
+  'selection-color': {
+    type: 'color',
+    defaultValue: '#a3daff',
+    onChange: (value) => {
+      selectionColor = value;
       renderCanvas();
     }
   },
@@ -387,16 +482,28 @@ for (let button of inspectorIconButtons) {
 
   switch (buttonName) {
     case "rotate-right":
-      button.addEventListener("click", () => rotateTile(buttonName));
+      button.addEventListener("click", function(e) { 
+        previewRotation += 90;
+        rotateTile(buttonName);
+      });
       break;
     case "rotate-left":
-      button.addEventListener("click", () => rotateTile(buttonName));
-      break;
+      button.addEventListener("click", function(e) { 
+        previewRotation -= 90;
+        rotateTile(buttonName);
+      });
+      break; 
     case "flip-h":
-      button.addEventListener("click", () => rotateTile(buttonName));
+      button.addEventListener("click", function(e) { 
+        previewMirror[0] ^= true;
+        rotateTile(buttonName);
+      });
       break;  
     case "flip-v":
-      button.addEventListener("click", () => rotateTile(buttonName));
+      button.addEventListener("click", function(e) { 
+        previewMirror[0] ^= true;
+        rotateTile(buttonName);
+      });
       break;
   }
  

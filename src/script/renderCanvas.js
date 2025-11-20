@@ -1,5 +1,5 @@
 // Dragging Variables
-let isDragging = false;
+let isDragging = "";
 let initialDragPos = { x: 0, y: 0 };
 let cameraDragStartPos = { x: 0, y: 0 };
 let cameraPosition = { x: 0, y: 0 };
@@ -12,14 +12,23 @@ let mapWidth = 20;
 let mapHeight = 20;
 let infiniteMap = false;
 
+let selectionColor = "#a3daff";
 
-function renderCanvas(camX, camY) {
-  
+let selectionBox = {
+  topLeft: "0,0",
+  topRight: "0,0", 
+  bottomLeft: "0,0",
+  bottomRight: "0,0"
+}
+
+let drawPreviewTile = true;
+
+function renderCanvas(camX, camY, previewX, previewY) {
   // Update the size of the canvas element to account for resizing
   let sizeArray = updateCanvasSize(cElement);
   const cWidth = sizeArray[0];
   const cHeight = sizeArray[1];
-
+  ctx.clearRect(0, 0, cWidth, cHeight);
   // Calculate map boundaries in screen space
   const mapLeftScreen = -((camX ?? cameraPosition.x) * zoom);
   const mapTopScreen = -((camY ?? cameraPosition.y) * zoom);
@@ -73,6 +82,7 @@ function renderCanvas(camX, camY) {
         ctx.stroke();
       }
     }
+
   }
 
   for (let tileArray of tileMap) {
@@ -120,12 +130,14 @@ function renderCanvas(camX, camY) {
     ctx.restore();
   
     // Selection overlay (no transform)
-    if (tile.selected === 1) {
-      ctx.fillStyle = "rgba(163, 218, 255, 0.25)";
+    if (tile.selected == true) {
+      ctx.fillStyle = selectionColor + "50";
       ctx.fillRect(xScreen, yScreen, size, size);
     }
   }
-  
+  if (drawPreviewTile) { renderTilePreview(previewX, previewY) }
+  drawSelectionBox();
+
 }
 
 function updateCanvasSize(cElement) {
@@ -164,4 +176,69 @@ function snapToCenter() {
   cameraPosition.y = mapCenterY - (canvasHeight / 2 / zoom);
   
   renderCanvas(cameraPosition.x, cameraPosition.y);
+}
+
+
+function drawSelectionBox() {
+  ctx.strokeStyle = "red";
+  ctx.beginPath();
+  ctx.moveTo(selectionBox.topLeft.split(',')[0], selectionBox.topLeft.split(',')[1]);
+  ctx.lineTo(selectionBox.topRight.split(',')[0], selectionBox.topRight.split(',')[1]);
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(selectionBox.topLeft.split(',')[0], selectionBox.topLeft.split(',')[1]);
+  ctx.lineTo(selectionBox.bottomLeft.split(',')[0], selectionBox.bottomLeft.split(',')[1]);
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(selectionBox.bottomLeft.split(',')[0], selectionBox.bottomLeft.split(',')[1]);
+  ctx.lineTo(selectionBox.bottomRight.split(',')[0], selectionBox.bottomRight.split(',')[1]);
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(selectionBox.bottomRight.split(',')[0], selectionBox.bottomRight.split(',')[1]);
+  ctx.lineTo(selectionBox.topRight.split(',')[0], selectionBox.topRight.split(',')[1]);
+  ctx.stroke();
+}
+
+
+function renderTilePreview(x, y) {
+  ctx.globalCompositeOperation = "screen";
+
+  const size = SPRITE_SIZE * zoom;
+  const half = size / 2;
+  const angle = previewRotation * Math.PI / 180;
+
+  ctx.save();
+
+  // 1. move origin to exact tile center
+  ctx.translate(x + half, y + half);
+
+  // 2. rotate around center
+  if (previewRotation !== 0) {
+    ctx.rotate(angle);
+  }
+
+  // 3. flips (mirroring)
+  const flipX = previewMirror[0] ? -1 : 1;
+  const flipY = previewMirror[1] ? -1 : 1;
+
+  // Scaling should happen **after** rotate
+  if (flipX === -1 || flipY === -1) {
+    ctx.scale(flipX, flipY);
+  }
+
+  // 4. draw image centered at origin  
+  // (this keeps rotation + flip always stable)
+  ctx.drawImage(
+    sprite,
+    -half,  // x offset
+    -half,  // y offset
+    size, 
+    size
+  );
+
+  ctx.restore();
+  ctx.globalCompositeOperation = "source-over";
 }
