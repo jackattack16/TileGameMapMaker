@@ -16,7 +16,7 @@ const SPRITE_PADDING = 5; // in % of width, same for all sides
 let spriteSheetZoom = 2.5;
 let SPRITE_SHEET = new Image();
 SPRITE_SHEET.src = "../../../../spriteSheets/testTileSpriteSheet.png";
-let currentSelectedSprite = 0;
+let currentSelectedSprite = [0, 0];
 const tempDisplaySize = updateCanvasSize(sElement);
 
 let spriteHitboxes = [];
