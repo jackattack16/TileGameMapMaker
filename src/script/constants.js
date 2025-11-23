@@ -21,12 +21,11 @@ const tempDisplaySize = updateCanvasSize(sElement);
 
 let spriteHitboxes = [];
 SPRITE_SHEET.onload = () => {
-
   console.log("spritesheet loaded");
   renderSpriteSheet(tempDisplaySize);
-  snapToCenter();
   initializeInputs();
   loadActionButtons();
+  snapToCenter();
 }
 
 function updateCanvasSize(canvas) {
