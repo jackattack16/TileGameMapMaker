@@ -109,6 +109,7 @@ cElement.addEventListener('mousedown', function(e) {
   if (e.button === 0 && e.altKey) {
     tileMap.get(key).selected ^= true;
     isDragging = "select";
+    updateInspectorFromSelection();
     renderCanvas();
     return;
   }
@@ -523,4 +524,23 @@ for (let button of inspectorIconButtons) {
       break;
   }
  
+}
+
+// Inspector Inputs
+const inspectorCheckboxes = document.getElementsByClassName("inspector-checkbox");
+for (let checkbox of inspectorCheckboxes) {
+  checkbox.addEventListener("change", function(e) {
+    const property = e.target.name;
+    const value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
+    updateSelectedTileProperty(property, value);
+  });
+}
+
+const inspectorNumbers = document.getElementsByClassName("inspector-number");
+for (let numberInput of inspectorNumbers) {
+  numberInput.addEventListener("input", function(e) {
+    const property = e.target.name;
+    const value = e.target.value;
+    updateSelectedTileProperty(property, value);
+  });
 }

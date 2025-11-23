@@ -13,20 +13,17 @@ let previewRotation = 0;
 let previewMirror = [false, false]; // Horizontal, vertical
 
 const SPRITE_PADDING = 5; // in % of width, same for all sides
-let spriteSheetZoom = 5;
-let spriteSheet = new Image();
-spriteSheet.src = "../../../../spriteSheets/testTileSpriteSheet.png";
-let sprites = [];
+let spriteSheetZoom = 2.5;
+let SPRITE_SHEET = new Image();
+SPRITE_SHEET.src = "../../../../spriteSheets/testTileSpriteSheet.png";
 let currentSelectedSprite = 0;
 const tempDisplaySize = updateCanvasSize(sElement);
-let spriteRects = [];
-spriteSheet.onload = async () => {
-  console.log("spritesheet loaded");
 
-  sprites = await makeArrayOfImages();
-  
+let spriteHitboxes = [];
+SPRITE_SHEET.onload = () => {
+
+  console.log("spritesheet loaded");
   renderSpriteSheet(tempDisplaySize);
-  snapToCenter();
   snapToCenter();
   initializeInputs();
   loadActionButtons();

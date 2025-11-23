@@ -61,18 +61,18 @@
             <div class="inspector-collapse">
               <div class="inspector-collapse-row">
                 <div class="inspector-row-text"><p>Walkable</p></div>
-                <input class="inspector-checkbox" type="radio" name="collision-type">
+                <input class="inspector-checkbox" type="radio" name="collision-type" value="walkable" checked>
               </div>
               <div class="inspector-collapse-row">
                 <div class="inspector-row-text"><p>Barrier</p></div>
                 <div class="inspector-multi-input">
-                  <input class="inspector-checkbox" type="radio"  name="collision-type">
-                  <input class="inspector-number" type="number" placeholder="Id">
+                  <input class="inspector-checkbox" type="radio"  name="collision-type" value="barrier">
+                  <input class="inspector-number" type="number" placeholder="Id" name="barrier-id">
                 </div>
               </div>
               <div class="inspector-collapse-row">
                 <div class="inspector-row-text"><p>Water</p></div>
-                <input class="inspector-checkbox" type="radio"  name="collision-type">
+                <input class="inspector-checkbox" type="radio"  name="collision-type" value="water">
               </div>
             </div>
           </div>
@@ -85,22 +85,22 @@
               <div class="inspector-collapse-row">
                 <div class="inspector-row-text"><p>Dialouge</p></div>
                 <div class="inspector-multi-input">
-                  <input class="inspector-checkbox" type="checkbox">
-                  <input class="inspector-number" type="number" placeholder="Id">
+                  <input class="inspector-checkbox" type="checkbox" name="trigger-dialogue">
+                  <input class="inspector-number" type="number" placeholder="Id" name="trigger-dialogue-id">
                 </div>
               </div>
               <div class="inspector-collapse-row">
                 <div class="inspector-row-text"><p>Cutscene</p></div>
                 <div class="inspector-multi-input">
-                  <input class="inspector-checkbox" type="checkbox">
-                  <input class="inspector-number" type="number" placeholder="Id">
+                  <input class="inspector-checkbox" type="checkbox" name="trigger-cutscene">
+                  <input class="inspector-number" type="number" placeholder="Id" name="trigger-cutscene-id">
                 </div>
               </div>
               <div class="inspector-collapse-row">
                 <div class="inspector-row-text"><p>Game State</p></div>
                 <div class="inspector-multi-input">
-                  <input class="inspector-checkbox" type="checkbox">
-                  <input class="inspector-number" type="number" placeholder="stateId">
+                  <input class="inspector-checkbox" type="checkbox" name="trigger-gamestate">
+                  <input class="inspector-number" type="number" placeholder="stateId" name="trigger-gamestate-id">
                 </div>
               </div>
             </div>

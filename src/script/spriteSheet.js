@@ -1,100 +1,75 @@
-
-
-async function makeArrayOfImages() {
-  const sheetWidth = spriteSheet.width;
-  const sheetHeight = spriteSheet.height;
-  
-  const spritesInRow = (sheetWidth / SPRITE_SIZE);
-  const spritesInCol = (sheetHeight / SPRITE_SIZE);
-  const sprites = [];
-
-  for (let row = 0; row < spritesInCol; row++) 
-  {                                           
-    for (let col = 0; col < spritesInRow; col++) 
-    {                                 
-      const bmp = await createImageBitmap(
-        spriteSheet, // Image
-        col * SPRITE_SIZE, // spriteSheet x location
-        row * SPRITE_SIZE, // spriteSheet y location
-        SPRITE_SIZE, // Sprite sheet sprite width
-        SPRITE_SIZE, );
-        sprites.push(bmp); 
-    }
-  }
-  console.log(sprites);
-  return sprites;
-}
-
 function renderSpriteSheet(displaySize) {
   spriteRects = [];
-  const sheetWidth = spriteSheet.width;
-  const sheetHeight = spriteSheet.height;
-  const numSprites = (sheetWidth / SPRITE_SIZE) * (sheetHeight / SPRITE_SIZE);
+  const sheetCols = SPRITE_SHEET.width / SPRITE_SIZE;
+  const sheetRows = SPRITE_SHEET.height / SPRITE_SIZE;
 
-  const scale = 2.5;
-  const spriteRenderSize = SPRITE_SIZE * scale;
+  const spriteRenderSize = SPRITE_SIZE * spriteSheetZoom;
 
-  // padding based on canvas width
   const padding = Math.floor((SPRITE_PADDING / 100) * displaySize[0]);
 
-  // compute max number of columns that fit horizontally
   const totalSpriteWidth = spriteRenderSize + padding;
-  const cols = Math.max(1, Math.floor(displaySize[0] / totalSpriteWidth));
-
-  // compute rows required for all sprites
-  const rows = Math.ceil(numSprites / cols);
+  const maxDisplayCols = Math.max(
+    1,
+    Math.floor(displaySize[0] / totalSpriteWidth)
+  );
 
   // compute grid width so we can center horizontally
-  const gridWidth = cols * totalSpriteWidth - padding;
+  const gridWidth = maxDisplayCols * totalSpriteWidth + padding;
 
-  // center horizontally
-  const offsetX = Math.floor((displaySize[0] - gridWidth) / 2);
+  const offsetToCenterX = (displaySize[0] - gridWidth) / 2;
 
-  // NEW: top padding = same padding value used elsewhere
-  const offsetY = padding;
+  let currentDisplayCol = 0;
+  let currentDisplayRow = 0;
 
-  let index = 0;
-  for (let r = 0; r < rows; r++) {
-    for (let c = 0; c < cols; c++) {
-      index = index+1;
-      if (index >= numSprites) return;
-
-      const spr = sprites[index];
-      if (!spr) {
-        console.error("Sprite undefined at index:", index);
-        return;
-      }
-
-      const x = offsetX + c * (spriteRenderSize + padding);
-      const y = offsetY + r * (spriteRenderSize + padding);
+  // This loops through the spritesheet's rows and columns, NOT the display thing
+  for (let r = 0; r < sheetRows; r++) {
+    for (let c = 0; c < sheetCols; c++) {
+      const x =
+        currentDisplayCol * spriteRenderSize +
+        offsetToCenterX +
+        padding * (currentDisplayCol + 1);
+      const y =
+        currentDisplayRow * spriteRenderSize +
+        padding +
+        padding * (currentDisplayRow + 1);
 
       sCtx.drawImage(
-        spr,
-        x,
-        y,
-        spriteRenderSize,
-        spriteRenderSize
+        SPRITE_SHEET, // Spritesheet
+        c * SPRITE_SIZE, // Spritesheet x
+        r * SPRITE_SIZE, // Spritesheet y
+        SPRITE_SIZE, // Sprite width
+        SPRITE_SIZE, // Sprite height
+        x, // Draw x
+        y, // Draw y
+        spriteRenderSize, // Draw width
+        spriteRenderSize // Draw height
       );
-      spriteRects.push({
-        index,
+
+      spriteHitboxes.push({
+        spriteSheetLocation: [c, r],
         x,
         y,
         w: spriteRenderSize,
-        h: spriteRenderSize
+        h: spriteRenderSize,
       });
+
+      // Detect if the display variables need to reset
+      if (!(currentDisplayCol < maxDisplayCols - 1)) {
+        currentDisplayCol = 0;
+        currentDisplayRow++;
+      } else {
+        currentDisplayCol++;
+      }
     }
   }
-  
 }
 
-
-
-sElement.addEventListener('mousedown', function (e) {
+sElement.addEventListener("mousedown", function (e) {
   const rect = sElement.getBoundingClientRect();
   const mouseX = e.clientX - rect.left;
   const mouseY = e.clientY - rect.top;
 
-  for (let box of spriteRects) {
+  for (let box of spriteHitboxes) {
     if (
       mouseX >= box.x &&
       mouseX <= box.x + box.w &&
@@ -103,7 +78,7 @@ sElement.addEventListener('mousedown', function (e) {
     ) {
       previewRotation = 0;
       previewMirror = [false, false];
-      currentSelectedSprite = box.index;
+      currentSelectedSprite = box.spriteSheetLocation;
       return;
     }
   }
