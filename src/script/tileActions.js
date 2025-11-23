@@ -16,10 +16,10 @@ function rotateTile(rotation) {
         case "flip-v":
           tile.mirrorVertical ^= true;
           break;
-      }
-      renderCanvas();
+      } 
     }
   }
+  renderCanvas();
 }
 
 function updateSelectedTileProperty(property, value) {

@@ -96,44 +96,9 @@ function renderCanvas(camX, camY, previewX, previewY) {
     const yScreen = mapTopScreen + tile.y * SPRITE_SIZE * zoom;
   
     const size = SPRITE_SIZE * zoom;
-    const half = size / 2;
-    const angle = tile.rotation * Math.PI / 180;
-  
-    ctx.save();
-  
-    // 1. move origin to exact tile center
-    ctx.translate(xScreen + half, yScreen + half);
-  
-    // 2. rotate around center
-    if (tile.rotation !== 0) {
-      ctx.rotate(angle);
-    }
-  
-    // 3. flips (mirroring)
-    const flipX = tile.mirrorHorizontal ? -1 : 1;
-    const flipY = tile.mirrorVertical ? -1 : 1;
-  
-    // Scaling should happen **after** rotate
-    if (flipX === -1 || flipY === -1) {
-      ctx.scale(flipX, flipY);
-    }
-  
-    // 4. draw image centered at origin  
-    // (this keeps rotation + flip always stable)
-    ctx.drawImage(
-      SPRITE_SHEET,
-      currentSelectedSprite[0] * SPRITE_SIZE,
-      currentSelectedSprite[1] * SPRITE_SIZE,
-      SPRITE_SIZE,
-      SPRITE_SIZE,
-      -half,  // x offset
-      -half,  // y offset
-      size, 
-      size
-    );
-  
-    ctx.restore();
-  
+    
+    renderTile(tile, mapLeftScreen, mapTopScreen);
+
     // Selection overlay (no transform)
     if (tile.selected == true) {
       ctx.fillStyle = selectionColor + "50";
@@ -169,7 +134,7 @@ function snapToCenter() {
   const zoomToFitWidth = canvasWidth / (mapWidth * SPRITE_SIZE * padding);
   const zoomToFitHeight = canvasHeight / (mapHeight * SPRITE_SIZE * padding);
   zoom = Math.min(zoomToFitWidth, zoomToFitHeight);
-  zoom = clampValue(zoom, 0.1, 5); // Respect your zoom limits
+  zoom = clampValue(zoom, 0.1, 5); // Respect your zoom lim its
   
   // Position camera so map center is at canvas center
   cameraPosition.x = mapCenterX - (canvasWidth / 2 / zoom);
@@ -245,4 +210,50 @@ function renderTilePreview(x, y) {
 
   ctx.restore();
   ctx.globalCompositeOperation = "source-over";
+}
+
+
+
+function renderTile(tile, mapLeftScreen, mapTopScreen) {
+  const xScreen = mapLeftScreen + tile.x * SPRITE_SIZE * zoom;
+  const yScreen = mapTopScreen + tile.y * SPRITE_SIZE * zoom;
+
+  const size = SPRITE_SIZE * zoom;
+  const half = size / 2;
+  const angle = tile.rotation * Math.PI / 180;
+
+  ctx.save();
+
+  // 1. move origin to exact tile center
+  ctx.translate(xScreen + half, yScreen + half);
+
+  // 2. rotate around center
+  if (previewRotation !== 0) {
+    ctx.rotate(angle);
+  }
+
+  // 3. flips (mirroring)
+  const flipX = previewMirror[0] ? -1 : 1;
+  const flipY = previewMirror[1] ? -1 : 1;
+
+  // Scaling should happen **after** rotate
+  if (flipX === -1 || flipY === -1) {
+    ctx.scale(flipX, flipY);
+  }
+
+  // 4. draw image centered at origin  
+  // (this keeps rotation + flip always stable)
+  ctx.drawImage(
+    SPRITE_SHEET,
+    tile.tileId[0] * SPRITE_SIZE,
+    tile.tileId[1] * SPRITE_SIZE,
+    SPRITE_SIZE,
+    SPRITE_SIZE,
+    -half,  // x offset
+    -half,  // y offset
+    size, 
+    size
+  );
+
+  ctx.restore();
 }
