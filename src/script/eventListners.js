@@ -1,9 +1,10 @@
-window.addEventListener('load', function() {
-  renderCanvas();
-});
+// window.addEventListener('load', function() {
+//   //renderCanvas();
+// });
 
 window.addEventListener("resize", (event) => { 
   renderCanvas();
+  renderSpriteSheet(updateCanvasSize(sElement));
 })
 
 cElement.addEventListener("wheel", (event) => { 
@@ -44,12 +45,10 @@ document.addEventListener("keydown", function(e) {
     case "-":
       zoom -= 0.1;
       zoom = clampValue(zoom, 0.1, 10);
-      renderCanvas();
       break;
     case "=":
       zoom += 0.1;
       zoom = clampValue(zoom, 0.1, 10);
-      renderCanvas();
       break;
     case " ":
       snapToCenter();
@@ -61,8 +60,25 @@ document.addEventListener("keydown", function(e) {
         bottomLeft: "0,0",
         bottomRight: "0,0"
       }
-      renderCanvas();
+      break;
+    case "q":
+      previewRotation -= 90;
+      rotateTile("rotate-left");
+      break;
+    case "e":
+      previewRotation += 90;
+      rotateTile("rotate-right");
+      break;
+    case "a":
+      previewMirror[0] ^= true;
+      rotateTile("flip-h");
+      break;
+    case "d":
+      previewMirror[1] ^= true;
+      rotateTile("flip-v");
+      break;
   }
+  renderCanvas();
   if (e.ctrlKey) {
     switch (keyName) {
       case "z":
@@ -93,12 +109,13 @@ cElement.addEventListener('mousedown', function(e) {
   if (e.button === 0 && e.altKey) {
     tileMap.get(key).selected ^= true;
     isDragging = "select";
+    updateInspectorFromSelection();
     renderCanvas();
     return;
   }
 
   if (e.button === 0) {
-    const newTile = new Tile(mouseEvent.tileX, mouseEvent.tileY, Math.random(), {rotation: previewRotation, mirrorHorizontal: previewMirror[0], mirrorVertical: previewMirror[1] });
+    const newTile = new Tile(mouseEvent.tileX, mouseEvent.tileY, currentSelectedSprite, {rotation: previewRotation, mirrorHorizontal: previewMirror[0], mirrorVertical: previewMirror[1] });
 
     addToUndo(
       "drawTile",
@@ -193,7 +210,7 @@ cElement.addEventListener('mousemove', function(e) {
   }
 
   if (isDragging === "draw") { 
-    const newTile = new Tile(mouseEvent.tileX, mouseEvent.tileY, Math.random());
+    const newTile = new Tile(mouseEvent.tileX, mouseEvent.tileY, currentSelectedSprite, {rotation: previewRotation, mirrorHorizontal: previewMirror[0], mirrorVertical: previewMirror[1] });
 
     addToUndo(
       "drawTile",
@@ -203,7 +220,7 @@ cElement.addEventListener('mousemove', function(e) {
     );
     redoStack.length = 0;
     
-    tileMap.set((mouseEvent.tileX + "," + mouseEvent.tileY), new Tile(mouseEvent.tileX, mouseEvent.tileY, Math.random()));
+    tileMap.set((mouseEvent.tileX + "," + mouseEvent.tileY), newTile);
 
   }
 
@@ -264,57 +281,57 @@ cElement.addEventListener('mouseenter', () => {
 
 
 
-document.addEventListener("DOMContentLoaded", () => {
   // Load editor action buttons
-  {
-    let editorActionButtons = document.getElementsByClassName("editor-action-button");
-    for(let i = 0; i < editorActionButtons.length; i++) {
-      editorActionButtons[i].addEventListener("click", function(e) {
-        const buttonName = e.explicitOriginalTarget.name;
-        const buttonArray = Array.from(editorActionButtons);
-        switch (buttonName) {
-          case "zoomOut":
-            zoom -= 0.1;
-            zoom = clampValue(zoom, 0.1, 10);
-            renderCanvas();
-            break;
-          case "zoomIn":
-            zoom += 0.1;
-            zoom = clampValue(zoom, 0.25, 5);
-            renderCanvas();
-            break;
-          case "panMode":
-            buttonArray.forEach((buttonArray, idx) => {
-              buttonArray.classList.toggle("selected", idx == i);
-            });
-            currentMode = buttonName;
-            // Add mode switching function
-            break;
-          case "selectMode":
-            buttonArray.forEach((buttonArray, idx) => {
-              buttonArray.classList.toggle("selected", idx == i);
-            });
-            currentMode = buttonName;
-            // Add mode switching function
-            break;
-          case "editMode":
-            buttonArray.forEach((buttonArray, idx) => {
-              buttonArray.classList.toggle("selected", idx == i);
-            });
-            currentMode = buttonName;
-            // Add mode switching function
-            break;screenX
-          case "eraseMode":
-            buttonArray.forEach((buttonArray, idx) => {
-              buttonArray.classList.toggle("selected", idx == i);
-            });
-            currentMode = buttonName;
-            // Add mode switching function
-            break;
-        }
-      });
-    }
+function loadActionButtons() {
+  let editorActionButtons = document.getElementsByClassName("editor-action-button");
+  for(let i = 0; i < editorActionButtons.length; i++) {
+    editorActionButtons[i].addEventListener("click", function(e) {
+      const buttonName = e.explicitOriginalTarget.name;
+      const buttonArray = Array.from(editorActionButtons);
+      switch (buttonName) {
+        case "zoomOut":
+          zoom -= 0.1;
+          zoom = clampValue(zoom, 0.1, 10);
+          renderCanvas();
+          break;
+        case "zoomIn":
+          zoom += 0.1;
+          zoom = clampValue(zoom, 0.25, 5);
+          renderCanvas();
+          break;
+        case "panMode":
+          buttonArray.forEach((buttonArray, idx) => {
+            buttonArray.classList.toggle("selected", idx == i);
+          });
+          currentMode = buttonName;
+          // Add mode switching function
+          break;
+        case "selectMode":
+          buttonArray.forEach((buttonArray, idx) => {
+            buttonArray.classList.toggle("selected", idx == i);
+          });
+          currentMode = buttonName;
+          // Add mode switching function
+          break;
+        case "editMode":
+          buttonArray.forEach((buttonArray, idx) => {
+            buttonArray.classList.toggle("selected", idx == i);
+          });
+          currentMode = buttonName;
+          // Add mode switching function
+          break;screenX
+        case "eraseMode":
+          buttonArray.forEach((buttonArray, idx) => {
+            buttonArray.classList.toggle("selected", idx == i);
+          });
+          currentMode = buttonName;
+          // Add mode switching function
+          break;
+      }
+    });
   }
+}
+  
 
 // Configuration for each input group
 const inputConfigs = {
@@ -469,8 +486,8 @@ function initializeInputs() {
 }
 
 // Call initialization
-initializeInputs();
-snapToCenter();
+
+//snapToCenter();
 
 
 
@@ -508,4 +525,22 @@ for (let button of inspectorIconButtons) {
   }
  
 }
-});
+
+// Inspector Inputs
+const inspectorCheckboxes = document.getElementsByClassName("inspector-checkbox");
+for (let checkbox of inspectorCheckboxes) {
+  checkbox.addEventListener("change", function(e) {
+    const property = e.target.name;
+    const value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
+    updateSelectedTileProperty(property, value);
+  });
+}
+
+const inspectorNumbers = document.getElementsByClassName("inspector-number");
+for (let numberInput of inspectorNumbers) {
+  numberInput.addEventListener("input", function(e) {
+    const property = e.target.name;
+    const value = e.target.value;
+    updateSelectedTileProperty(property, value);
+  });
+}

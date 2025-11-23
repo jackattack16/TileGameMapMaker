@@ -5,7 +5,7 @@ let cameraDragStartPos = { x: 0, y: 0 };
 let cameraPosition = { x: 0, y: 0 };
 let zoom = 1;
 
-let gridColor = "rgb(97, 97, 97)";
+let gridColor = "#616161";
 let renderGridLines = true;
 
 let mapWidth = 20;
@@ -120,7 +120,11 @@ function renderCanvas(camX, camY, previewX, previewY) {
     // 4. draw image centered at origin  
     // (this keeps rotation + flip always stable)
     ctx.drawImage(
-      sprite,
+      SPRITE_SHEET,
+      currentSelectedSprite[0] * SPRITE_SIZE,
+      currentSelectedSprite[1] * SPRITE_SIZE,
+      SPRITE_SIZE,
+      SPRITE_SIZE,
       -half,  // x offset
       -half,  // y offset
       size, 
@@ -140,11 +144,7 @@ function renderCanvas(camX, camY, previewX, previewY) {
 
 }
 
-function updateCanvasSize(cElement) {
-  cElement.width = cElement.clientWidth;
-  cElement.height = cElement.clientHeight;
-  return [cElement.width, cElement.height];
-}
+
 
 function getCursorPosition(event) {
   const rect = cElement.getBoundingClientRect();
@@ -232,7 +232,11 @@ function renderTilePreview(x, y) {
   // 4. draw image centered at origin  
   // (this keeps rotation + flip always stable)
   ctx.drawImage(
-    sprite,
+    SPRITE_SHEET,
+    currentSelectedSprite[0] * SPRITE_SIZE,
+    currentSelectedSprite[1] * SPRITE_SIZE,
+    SPRITE_SIZE,
+    SPRITE_SIZE,
     -half,  // x offset
     -half,  // y offset
     size, 

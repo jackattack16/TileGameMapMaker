@@ -1,8 +1,8 @@
 :root {
-  --primary-bg-color: rgb(34, 34, 34);
-  --primary-bg-color-lighter: rgb(50, 50, 50);
-  --secondary-bg-color: rgb(53, 64, 82);
-  --selected-bg-color: rgb(65, 65, 65);
-  --form-control-color: rgb(57, 119, 57);
-  --selected-control-color: rgb(57, 117, 119);
+  --primary-bg-color: #222222;
+  --primary-bg-color-lighter: #323232;
+  --secondary-bg-color: #354052;
+  --selected-bg-color: #414141;
+  --form-control-color: #397739;
+  --selected-control-color: #397577;
 }
