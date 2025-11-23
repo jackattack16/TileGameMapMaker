@@ -22,6 +22,7 @@ let selectionBox = {
 }
 
 let drawPreviewTile = true;
+let lastMousePosition = [0, 0];
 
 function renderCanvas(camX, camY, previewX, previewY) {
   // Update the size of the canvas element to account for resizing
@@ -139,9 +140,8 @@ function renderCanvas(camX, camY, previewX, previewY) {
       ctx.fillRect(xScreen, yScreen, size, size);
     }
   }
-  if (drawPreviewTile) { renderTilePreview(previewX, previewY) }
+  if (drawPreviewTile) { renderTilePreview((previewX ?? lastMousePosition[0]) , (previewY ?? lastMousePosition[1])) }
   drawSelectionBox();
-
 }
 
 

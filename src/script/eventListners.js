@@ -236,6 +236,8 @@ cElement.addEventListener('mousemove', function(e) {
   } else {
     renderCanvas();
   }
+
+  lastMousePosition = [e.layerX, e.layerY];
 });
 
 cElement.addEventListener('mouseup', () => {
