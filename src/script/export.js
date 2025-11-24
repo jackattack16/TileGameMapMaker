@@ -66,10 +66,21 @@ async function loadFile() {
   text = await fileInput.files[0].text();
   text = JSON.parse(text);
   console.log(text[0]);
+  
+  let mapWidthElement = document.getElementsByName('map-width')[0];
+  let mapHeightElement = document.getElementsByName('map-height')[0];
 
-  for (const value of text) {
+  mapWidthElement.value = text[0].width;
+  mapHeightElement.value = text[0].height;
+  mapWidth = text[0].width;
+  mapHeight = text[0].height;
+
+  tileMap.clear();
+  for (const value of text[1]) {
     tileMap.set((value.x + "," + value.y), value);
   }
+  
+  renderCanvas();
 }
 
 function getByValue(map, searchValue) {

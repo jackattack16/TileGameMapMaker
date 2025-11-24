@@ -1,6 +1,5 @@
 function rotateTile(rotation) {
   console.log(rotation);
-
   for (let tileArray of tileMap) {
     const tile = tileArray[1];
     if(tile.selected) {
@@ -20,6 +19,16 @@ function rotateTile(rotation) {
     }
   }
   renderCanvas();
+}
+
+function areTilesSelected() {
+  for (let tileArray of tileMap) {
+    const tile = tileArray[1];
+    if(tile.selected) {
+      console.log(tile);
+      } 
+    }
+  //renderCanvas();
 }
 
 function updateSelectedTileProperty(property, value) {
