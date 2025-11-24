@@ -1,3 +1,5 @@
+let spriteGridLocation = [0, 0];
+
 function renderSpriteSheet(displaySize) {
   spriteRects = [];
   const sheetCols = SPRITE_SHEET.width / SPRITE_SIZE;
@@ -20,7 +22,7 @@ function renderSpriteSheet(displaySize) {
 
   let currentDisplayCol = 0;
   let currentDisplayRow = 0;
-
+  spriteHitboxes = [];
   // This loops through the spritesheet's rows and columns, NOT the display thing
   for (let r = 0; r < sheetRows; r++) {
     for (let c = 0; c < sheetCols; c++) {
@@ -47,6 +49,7 @@ function renderSpriteSheet(displaySize) {
 
       spriteHitboxes.push({
         spriteSheetLocation: [c, r],
+        displayGridLocation: [currentDisplayCol, currentDisplayRow],
         x,
         y,
         w: spriteRenderSize,
@@ -62,6 +65,14 @@ function renderSpriteSheet(displaySize) {
       }
     }
   }
+  
+
+  const spriteIndex = (spriteGridLocation[0]) + (spriteGridLocation[1] * maxDisplayCols);
+  sCtx.strokeStyle = "red";
+  sCtx.lineWidth = "5";
+  sCtx.beginPath();
+  sCtx.rect(spriteHitboxes[spriteIndex].x, spriteHitboxes[spriteIndex].y, spriteHitboxes[spriteIndex].w, spriteHitboxes[spriteIndex].h);
+  sCtx.stroke();
 }
 
 sElement.addEventListener("mousedown", function (e) {
@@ -79,6 +90,8 @@ sElement.addEventListener("mousedown", function (e) {
       previewRotation = 0;
       previewMirror = [false, false];
       currentSelectedSprite = box.spriteSheetLocation;
+      spriteGridLocation = box.displayGridLocation;
+      renderSpriteSheet(updateCanvasSize(sElement));
       return;
     }
   }

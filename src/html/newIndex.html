@@ -154,13 +154,29 @@
             <div class="inspector-collapse uncollapsed">
               <div class="inspector-collapse-row">
                 <div class="inspector-row-text"><p>Select Color</p></div>
-                <div class="inspector-multi-input">
-                  <input class="inspector-color" type="color" name="selection-color">
-                  <button class="inspector-icon-button" name="undo-selection-color"><span class="material-symbols-rounded">undo</span></button>
-                </div>
+                  <div class="inspector-multi-input">
+                    <input class="inspector-color" type="color" name="selection-color">
+                    <button class="inspector-icon-button" name="undo-selection-color"><span class="material-symbols-rounded">undo</span></button>
+                  </div>
               </div>
+            </div>
           </div>
-        </div>
+
+          <div class="inspector-pannel-element">
+            <div class="top-bar">
+              <button class="collapse-button"><span class="material-symbols-rounded">keyboard_arrow_up</span></button>
+              <h1>Export</h1>
+            </div>
+            <div class="inspector-collapse uncollapsed">
+              <div class="inspector-collapse-row">
+                <div class="inspector-row-text"><p>Export</p></div>
+                  <div class="inspector-multi-input" style="flex-wrap: wrap;">
+                    <input type="file" accept=".json" id="inputFile">
+                    <button onclick="loadFile()">submit</button>
+                  </div>
+              </div>
+            </div>
+          </div>
         </div>
           
           <!-- <div class="layer-holder">
@@ -236,3 +252,4 @@
 <script src="../script/eventListners.js"></script>
 <script src="../script/spriteSheet.js"></script>
 <script src="../script/interface.js"></script>
+<script src="../script/export.js"></script>

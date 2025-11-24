@@ -228,13 +228,13 @@ function renderTile(tile, mapLeftScreen, mapTopScreen) {
   ctx.translate(xScreen + half, yScreen + half);
 
   // 2. rotate around center
-  if (previewRotation !== 0) {
+  if (tile.rotation !== 0) {
     ctx.rotate(angle);
   }
 
   // 3. flips (mirroring)
-  const flipX = previewMirror[0] ? -1 : 1;
-  const flipY = previewMirror[1] ? -1 : 1;
+  const flipX = tile.mirrorHorizontal ? -1 : 1;
+  const flipY = tile.mirrorVertical ? -1 : 1;
 
   // Scaling should happen **after** rotate
   if (flipX === -1 || flipY === -1) {
